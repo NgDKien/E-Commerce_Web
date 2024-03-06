@@ -43,7 +43,6 @@ const getProduct = asyncHandler(async (req, res) => {
 //   })
 // })
 
-// Filtering, sorting & pagination
 const getProducts = asyncHandler(async (req, res) => {
   const queries = { ...req.query }
   // Tách các trường đặc biệt ra khỏi query
@@ -60,30 +59,7 @@ const getProducts = asyncHandler(async (req, res) => {
   if (queries?.title)
     formatedQueries.title = { $regex: queries.title, $options: "i" }
   let queryCommand = Product.find(formatedQueries)
-  // if (queries?.category)
-  //   formatedQueries.category = { $regex: queries.category, $options: "i" }
-  // if (queries?.brand)
-  //   formatedQueries.brand = { $regex: queries.brand, $options: "i" }
-  // if (queries?.color) {
-  //   delete formatedQueries.color
-  //   const colorArr = queries.color?.split(",")
-  //   const colorQuery = colorArr.map((el) => ({
-  //     color: { $regex: el, $options: "i" },
-  //   }))
-  //   colorQueryObject = { $or: colorQuery }
-  // }
 
-  // Execute query
-  // Số lượng sp thỏa mãn điều kiện !== số lượng sp trả về 1 lần gọi API
-  // queryCommand.exec(async (err, response) => {
-  //   if (err) throw new Error(err.message)
-  //   const counts = await Product.find(formatedQueries).countDocuments()
-  //   return res.status(200).json({
-  //     success: response ? true : false,
-  //     counts,
-  //     products: response ? response : "Cannot get products",
-  //   })
-  // })
   queryCommand.then((response) => {
     const counts = Product.find(formatedQueries).countDocuments()
     return res.status(200).json({
@@ -92,10 +68,10 @@ const getProducts = asyncHandler(async (req, res) => {
       products: response ? response : "Cannot get products",
     })
   }).catch((err) => {
-    // throw new Error(err.message)
-    console.log(err)
+    throw new Error(err.message)
   });
 })
+
 const updateProduct = asyncHandler(async (req, res) => {
   const { pid } = req.params
   if (req.body && req.body.title) req.body.slug = slugify(req.body.title)
