@@ -7,6 +7,7 @@ import { CiStar } from "react-icons/ci";
 import { IoEyeSharp } from "react-icons/io5";
 import { MdMenuOpen } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
+import { IoIosArrowForward } from "react-icons/io";
 
 
 const icons = {
@@ -18,7 +19,8 @@ const icons = {
     CiStar,
     IoEyeSharp,
     MdMenuOpen,
-    FaHeart
+    FaHeart,
+    IoIosArrowForward
 }
 
 export default icons
