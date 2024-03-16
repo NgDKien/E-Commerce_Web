@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Sidebar, Banner, BestSeller, DealDaily } from '../../components'
+import { Sidebar, Banner, BestSeller, DealDaily, FeatureProducts } from '../../components'
 
 const Home = () => {
     return (
@@ -13,6 +13,9 @@ const Home = () => {
                     <Banner />
                     <BestSeller />
                 </div>
+            </div>
+            <div className='my-8'>
+                <FeatureProducts />
             </div>
             <div className='w-full h-[200px]'></div>
         </>
