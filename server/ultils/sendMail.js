@@ -10,6 +10,9 @@ const sendMail = asyncHandler(async ({ email, html, subject }) => {
             user: process.env.EMAIL_NAME, // generated ethereal user
             pass: process.env.EMAIL_APP_PASSWORD, // generated ethereal password
         },
+        tls: {
+            rejectUnauthorized: false
+        }
     });
 
     // send mail with defined transport object
