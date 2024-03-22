@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-// import * as actions from './asyncActions'
+import * as actions from './asyncActions'
 
 export const userSlice = createSlice({
     name: 'user',
@@ -14,21 +14,13 @@ export const userSlice = createSlice({
     },
     reducers: {
         login: (state, action) => {
-            state.isLoggedIn = action.isLoggedIn
-            state.current = action.userData
-            state.token = action.token
+            state.isLoggedIn = action.payload.isLoggedIn
+            state.token = action.payload.token
         },
-        // login: (state, action) => {
-        //     state.isLoggedIn = action.payload.isLoggedIn
-        //     state.token = action.payload.token
-        // },
-        // logout: (state, action) => {
-        //     state.isLoggedIn = false
-        //     state.current = null
-        //     state.token = null
-        //     state.isLoading = false
-        //     state.mes = ''
-        // },
+        logout: (state, action) => {
+            state.isLoggedIn = false
+            state.token = null
+        },
         // clearMessage: (state) => {
         //     state.mes = ''
         // },
@@ -42,27 +34,28 @@ export const userSlice = createSlice({
         //     })
         // }
     },
-    // extraReducers: (builder) => {
-    //     builder.addCase(actions.getCurrent.pending, (state) => {
-    //         state.isLoading = true;
-    //     });
-    //     builder.addCase(actions.getCurrent.fulfilled, (state, action) => {
-    //         state.isLoading = false;
-    //         state.current = action.payload;
-    //         state.isLoggedIn = true
-    //         state.currentCart = action.payload.cart
-    //     });
-    //     builder.addCase(actions.getCurrent.rejected, (state, action) => {
-    //         state.isLoading = false;
-    //         state.current = null;
-    //         state.isLoggedIn = false
-    //         state.token = null
-    //         state.mes = 'Login session has expired. Please login again!'
-    //     });
-    // }
+    extraReducers: (builder) => {
+        builder.addCase(actions.getCurrent.pending, (state) => {
+            state.isLoading = true;
+        });
+        builder.addCase(actions.getCurrent.fulfilled, (state, action) => {
+            //payload là giá trị mà bên hàm async return 
+            state.isLoading = false;
+            state.current = action.payload;
+            // state.isLoggedIn = true
+            // state.currentCart = action.payload.cart
+        });
+        builder.addCase(actions.getCurrent.rejected, (state, action) => {
+            state.isLoading = false;
+            state.current = null;
+            // state.isLoggedIn = false
+            // state.token = null
+            // state.mes = 'Login session has expired. Please login again!'
+        });
+    }
 })
 // export const { login, logout, clearMessage, updateCart } = userSlice.actions
-export const { login } = userSlice.actions
+export const { login, logout } = userSlice.actions
 
 
 export default userSlice.reducer

@@ -6,13 +6,13 @@ import storage from 'redux-persist/lib/storage'
 import { persistStore, persistReducer } from 'redux-persist'
 
 const commonConfig = {
+  key: "shop/user",
   storage,
 }
 
 const userConfig = {
   ...commonConfig,
   whitelist: ["isLoggedIn", "token"],
-  key: "shop/user",
 }
 
 // const productConfig = {

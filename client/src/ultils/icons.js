@@ -8,7 +8,12 @@ import { IoEyeSharp } from "react-icons/io5";
 import { MdMenuOpen } from "react-icons/md";
 import { FaHeart } from "react-icons/fa";
 import { IoIosArrowForward } from "react-icons/io";
-
+import { IoLogOut } from "react-icons/io5";
+import { FaShieldAlt } from "react-icons/fa";
+import { FaTruck } from "react-icons/fa6";
+import { FaGift } from "react-icons/fa6";
+import { FaReply } from "react-icons/fa6";
+import { MdTty } from "react-icons/md";
 
 const icons = {
     FaPhone,
@@ -20,7 +25,13 @@ const icons = {
     IoEyeSharp,
     MdMenuOpen,
     FaHeart,
-    IoIosArrowForward
+    IoIosArrowForward,
+    IoLogOut,
+    FaShieldAlt,
+    FaTruck,
+    FaGift,
+    FaReply,
+    MdTty
 }
 
 export default icons

@@ -10,13 +10,13 @@ import path from "../ultils/path";
 
 const { IoEyeSharp, MdMenuOpen, FaHeart } = icons
 
-const Product = ({ productData, isNew }) => {
+const Product = ({ productData, isNew, normal }) => {
     const [isShowOption, setIsShowOption] = useState(false)
     return (
         <div className="w-full text-base px-[10px]">
             <Link
                 className="w-full border p-[15px] flex flex-col items-center"
-                to={`/${path.DETAIL_PRODUCT}/${productData?._id}/${productData?.title}`}
+                to={`/${productData?.category?.toLowerCase()}/${productData?._id}/${productData?.title}`}
                 onMouseEnter={e => {
                     e.stopPropagation()
                     setIsShowOption(true)
@@ -37,11 +37,12 @@ const Product = ({ productData, isNew }) => {
                         alt=""
                         className="w-[274px] h-[274px] object-cover"
                     />
-                    <img
-                        src={isNew ? label : trending}
-                        alt=""
-                        className="absolute w-[100px] h-[35px] top-[0] right-[0] object-cover"
-                    />
+                    {!normal &&
+                        <img
+                            src={isNew ? label : trending}
+                            alt=""
+                            className="absolute w-[100px] h-[35px] top-[0] right-[0] object-cover"
+                        />}
 
                 </div>
                 <div className="flex flex-col mt-[15px] items-start gap-1 w-full">

@@ -2,7 +2,7 @@ import React, { memo } from "react"
 // import { CgSpinner } from "react-icons/cg"
 
 const Button = ({
-    name,
+    children,
     handleOnClick,
     style,
     fw,
@@ -30,9 +30,7 @@ const Button = ({
         </span>
       )}
       {children} */}
-            {iconsBefore}
-            <span>{name}</span>
-            {iconsAfter}
+            <span>{children}</span>
         </button>
     )
 }

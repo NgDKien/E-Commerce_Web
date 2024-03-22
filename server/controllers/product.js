@@ -3,25 +3,25 @@ const asyncHandler = require("express-async-handler")
 const slugify = require("slugify")
 
 const createProduct = asyncHandler(async (req, res) => {
-    if (Object.keys(req.body).length === 0) throw new Error('Missing Inputs')
-    if (req.body && req.body.title) req.body.slug = slugify(req.body.title)
-    const newProduct = await Product.create(req.body)
-    return res.status(200).json({
-      success: newProduct ? true : false,
-      mes: newProduct ? "Created" : "Failed.",
-    }) 
+  if (Object.keys(req.body).length === 0) throw new Error('Missing Inputs')
+  if (req.body && req.body.title) req.body.slug = slugify(req.body.title)
+  const newProduct = await Product.create(req.body)
+  return res.status(200).json({
+    success: newProduct ? true : false,
+    mes: newProduct ? "Created" : "Failed.",
+  })
 })
 
 const getProduct = asyncHandler(async (req, res) => {
   const { pid } = req.params
   const product = await Product.findById(pid)
-    // .populate({
-    //   path: "ratings",
-    //   populate: {
-    //     path: "postedBy",
-    //     select: "firstname lastname avatar",
-    //   },
-    // })
+  // .populate({
+  //   path: "ratings",
+  //   populate: {
+  //     path: "postedBy",
+  //     select: "firstname lastname avatar",
+  //   },
+  // })
   return res.status(200).json({
     success: product ? true : false,
     productData: product ? product : "Cannot get product",
@@ -59,6 +59,8 @@ const getProducts = asyncHandler(async (req, res) => {
   const formatedQueries = JSON.parse(queryString)
   if (queries?.title)
     formatedQueries.title = { $regex: queries.title, $options: "i" }
+  if (queries?.category)
+    formatedQueries.category = { $regex: queries.category, $options: "i" }
   let queryCommand = Product.find(formatedQueries)
   // if (queries?.category)
   //   formatedQueries.category = { $regex: queries.category, $options: "i" }
@@ -206,11 +208,11 @@ const uploadImagesProduct = asyncHandler(async (req, res) => {
 })
 
 module.exports = {
-    createProduct,
-    getProduct,
-    getProducts,
-    updateProduct,
-    deleteProduct, 
-    ratings,
-    uploadImagesProduct
+  createProduct,
+  getProduct,
+  getProducts,
+  updateProduct,
+  deleteProduct,
+  ratings,
+  uploadImagesProduct
 }

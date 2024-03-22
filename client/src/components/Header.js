@@ -34,8 +34,9 @@ const Header = () => {
                     <BsBagPlusFill color="red" size={20} />
                     <span>0 item(s)</span>
                 </div>
-                <div className='flex items-center justify-center px-6'>
-                    <FaUserCircle size={30} />
+                <div className='flex cursor-pointer gap-2 items-center justify-center px-6'>
+                    <FaUserCircle size={30} color='red' />
+                    <span>Profile</span>
                 </div>
             </div>
         </div>
