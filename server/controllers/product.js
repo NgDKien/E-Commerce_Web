@@ -15,13 +15,13 @@ const createProduct = asyncHandler(async (req, res) => {
 const getProduct = asyncHandler(async (req, res) => {
   const { pid } = req.params
   const product = await Product.findById(pid)
-  // .populate({
-  //   path: "ratings",
-  //   populate: {
-  //     path: "postedBy",
-  //     select: "firstname lastname avatar",
-  //   },
-  // })
+    .populate({
+      path: "ratings",
+      populate: {
+        path: "postedBy",
+        select: "firstname lastname avatar",
+      },
+    })
   return res.status(200).json({
     success: product ? true : false,
     productData: product ? product : "Cannot get product",

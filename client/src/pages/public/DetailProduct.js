@@ -7,6 +7,7 @@ import ReactImageMagnify from 'react-image-magnify';
 import { fotmatPrice, formatMoney, renderStarFromNumber } from '../../ultils/helpers'
 import { productExtraInfomation } from '../../ultils/contants'
 
+
 const settings = {
     dots: false,
     infinite: true,
@@ -20,11 +21,14 @@ const DetailProduct = () => {
     const [product, setProduct] = useState(null)
     const [quantity, setQuantity] = useState(1)
     const [relatedProducts, setRelatedProducts] = useState(null)
+    const [currentImage, setCurrentImage] = useState(null)
+    const [update, setUpdate] = useState(false)
 
     const fetchProductData = async () => {
         const response = await apiGetProduct(pid)
         if (response.success) {
             setProduct(response.productData)
+            setCurrentImage(response.productData?.thumb)
         }
     }
 
@@ -53,11 +57,25 @@ const DetailProduct = () => {
         if (response.success) setRelatedProducts(response.products)
     }
 
+    const handleClickImage = (e, el) => {
+        e.stopPropagation()
+        setCurrentImage(el)
+    }
+
+    const rerender = useCallback(() => {
+        setUpdate(!update)
+    }, [update])
+
+    useEffect(() => {
+        if (pid) fetchProductData()
+    }, [update])
+
     useEffect(() => {
         if (pid) {
             fetchProductData()
             fetchProducts()
         }
+        window.scrollTo(0, 0)
     }, [pid])
 
     return (
@@ -70,13 +88,13 @@ const DetailProduct = () => {
             </div>
             <div className='w-main m-auto- mt-4 flex'>
                 <div className='flex flex-col gap-4 w-2/5'>
-                    <div className='w-[458px] h-[458px] border'>
+                    <div className='w-[458px] h-[458px] border overflow-hidden'>
                         <ReactImageMagnify
                             {...{
                                 smallImage: {
                                     alt: "",
                                     isFluidWidth: true,
-                                    src: product?.thumb,
+                                    src: currentImage,
                                 },
                                 largeImage: {
                                     src: product?.thumb,
@@ -93,6 +111,7 @@ const DetailProduct = () => {
                                 <div className='px-2' key={el}>
                                     <img
                                         src={el}
+                                        onClick={(e) => handleClickImage(e, el)}
                                         alt="sub-product"
                                         className="w-[143px] cursor-pointer h-[143px] border object-contain"
                                     />
@@ -112,7 +131,7 @@ const DetailProduct = () => {
                         {renderStarFromNumber(product?.totalRatings)?.map((el, index) => (
                             <span key={index}>{el}</span>
                         ))}
-                        <span className="text-sm text-main italic">{`(Sold: ${product?.sold} pieces)`}</span>
+                        <span className="text-sm text-main italic">{`(Sold: ${product?.sold})`}</span>
                     </div>
                     <ul className="list-square text-sm text-gray-500 pl-4">
                         {product?.description?.length > 1 &&
@@ -151,7 +170,13 @@ const DetailProduct = () => {
                 </div>
             </div>
             <div className='w-main m-auto mt-8'>
-                <ProductInformation />
+                <ProductInformation
+                    totalRatings={product?.totalRatings}
+                    ratings={product?.ratings}
+                    nameProduct={product?.title}
+                    pid={product?._id}
+                    rerender={rerender}
+                />
             </div>
             <div className='w-main m-auto mt-8'>
                 <h3 className="text-[20px] font-semibold py-[15px] border-b-2 border-main">

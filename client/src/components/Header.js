@@ -7,8 +7,8 @@ import path from '../ultils/path'
 const Header = () => {
     const { FaPhone, IoIosMail, BsBagPlusFill, FaUserCircle } = icons
     return (
-        <div className="md:w-main w-full flex justify-between md:h-[110px] py-[35px]">
-            <Link className="w-fit h-fit px-4" to={`/${path.HOME}`}>
+        <div className="w-main flex justify-between h-[110px] py-[35px]">
+            <Link className="w-fit h-fit" to={`/${path.HOME}`}>
                 <img
                     src={logo}
                     alt="logo"
@@ -23,7 +23,7 @@ const Header = () => {
                     </span>
                     <span>Mon-Sat 9:00AM - 8:00PM</span>
                 </div>
-                <div className="md:flex hidden flex-col items-center px-6 border-r">
+                <div className="flex flex-col items-center px-4 border-r">
                     <span className="flex gap-4 items-center">
                         <IoIosMail color="red" size={20} />
                         <span className="font-semibold">SUPPORT@TADATHEMES.COM</span>
