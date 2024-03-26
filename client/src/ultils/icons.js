@@ -15,6 +15,7 @@ import { FaGift } from "react-icons/fa6";
 import { FaReply } from "react-icons/fa6";
 import { MdTty } from "react-icons/md";
 import { MdArrowDropDownCircle } from "react-icons/md";
+import { BsThreeDots } from "react-icons/bs";
 
 const icons = {
     FaPhone,
@@ -33,7 +34,8 @@ const icons = {
     FaGift,
     FaReply,
     MdTty,
-    MdArrowDropDownCircle
+    MdArrowDropDownCircle,
+    BsThreeDots
 }
 
 export default icons

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { useParams, useSearchParams, useNavigate, createSearchParams } from 'react-router-dom'
-import { Breadcrumb, Product, SearchItem, InputSelect } from '../../components'
+import { Breadcrumb, Product, SearchItem, InputSelect, Pagination } from '../../components'
 import { apiGetProducts } from '../../apis'
 import Masonry from "react-masonry-css"
 import { sorts } from '../../ultils/contants'
@@ -24,7 +24,7 @@ const Products = () => {
     const fetchProductsByCategory = async (queries) => {
         // if (category && category !== "products") queries.category = category
         const response = await apiGetProducts(queries)
-        if (response.success) setProducts(response.products)
+        if (response.success) setProducts(response)
     }
 
     const changeActiveFitler = useCallback(
@@ -66,6 +66,7 @@ const Products = () => {
         delete queries.from
         const q = { ...priceQuery, ...queries }
         fetchProductsByCategory(q)
+        window.scrollTo(0, 0)
     }, [params])
 
     useEffect(() => {
@@ -119,7 +120,7 @@ const Products = () => {
                     className='my-masonry-grid flex mx-[-10px]'
                     columnClassName='my-masonry-grid_column'
                 >
-                    {products?.map(el => (
+                    {products?.products?.map(el => (
                         <Product
                             key={el._id}
                             pid={el.id}
@@ -128,6 +129,9 @@ const Products = () => {
                         />
                     ))}
                 </Masonry>
+            </div>
+            <div className='w-main m-auto my-4 flex justify-end'>
+                <Pagination totalCount={products?.counts} />
             </div>
             <div className='w-full h-[500px]'>
 
