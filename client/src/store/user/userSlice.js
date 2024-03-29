@@ -7,8 +7,8 @@ export const userSlice = createSlice({
         isLoggedIn: false,
         current: null,
         token: null,
-        // isLoading: false,
-        // mes: '',
+        isLoading: false,
+        mes: '',
         // currentCart: []
 
     },
@@ -19,11 +19,14 @@ export const userSlice = createSlice({
         },
         logout: (state, action) => {
             state.isLoggedIn = false
+            state.current = null
             state.token = null
+            state.isLoading = false
+            state.mes = ''
         },
-        // clearMessage: (state) => {
-        //     state.mes = ''
-        // },
+        clearMessage: (state) => {
+            state.mes = ''
+        },
         // updateCart: (state, action) => {
         //     const { pid, color, quantity } = action.payload
         //     const updatingCart = JSON.parse(JSON.stringify(state.currentCart))
@@ -42,20 +45,20 @@ export const userSlice = createSlice({
             //payload là giá trị mà bên hàm async return 
             state.isLoading = false;
             state.current = action.payload;
-            // state.isLoggedIn = true
+            state.isLoggedIn = true
             // state.currentCart = action.payload.cart
         });
         builder.addCase(actions.getCurrent.rejected, (state, action) => {
             state.isLoading = false;
             state.current = null;
-            // state.isLoggedIn = false
-            // state.token = null
-            // state.mes = 'Login session has expired. Please login again!'
+            state.isLoggedIn = false
+            state.token = null
+            state.mes = 'Login session has expired. Please login again!'
         });
     }
 })
 // export const { login, logout, clearMessage, updateCart } = userSlice.actions
-export const { login, logout } = userSlice.actions
+export const { login, logout, clearMessage } = userSlice.actions
 
 
 export default userSlice.reducer

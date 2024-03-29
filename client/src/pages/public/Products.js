@@ -43,11 +43,13 @@ const Products = () => {
     )
 
     useEffect(() => {
-        let param = []
-        for (let i of params.entries()) param.push(i)
-        const queries = {}
-        //filter
-        for (let i of params) queries[i[0]] = i[1]
+        // let param = []
+        // for (let i of params.entries()) param.push(i)
+        // const queries = {}
+        // //filter
+        // for (let i of params) queries[i[0]] = i[1]
+        // Line 46,47,48,50,51 = line 52
+        const queries = Object.fromEntries([...params])
         let priceQuery = {}
         if (queries.to && queries.from) {
             priceQuery = {
@@ -131,7 +133,9 @@ const Products = () => {
                 </Masonry>
             </div>
             <div className='w-main m-auto my-4 flex justify-end'>
-                <Pagination totalCount={products?.counts} />
+                <Pagination
+                    totalCount={products?.counts}
+                />
             </div>
             <div className='w-full h-[500px]'>
 

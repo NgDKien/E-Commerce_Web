@@ -3,7 +3,7 @@ import appSlice from './app/appSlice';
 import productSlice from './products/productSlice';
 import userSlice from './user/userSlice';
 import storage from 'redux-persist/lib/storage'
-import { persistStore, persistReducer } from 'redux-persist'
+import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
 
 const commonConfig = {
   key: "shop/user",
@@ -12,7 +12,7 @@ const commonConfig = {
 
 const userConfig = {
   ...commonConfig,
-  whitelist: ["isLoggedIn", "token"],
+  whitelist: ["isLoggedIn", "token", "current"],
 }
 
 // const productConfig = {
@@ -27,6 +27,13 @@ export const store = configureStore({
     products: productSlice,
     user: persistReducer(userConfig, userSlice)
   },
+  //Fix lỗi non-serializable trên tab console.log
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      }
+    }),
 });
 
 export const persistor = persistStore(store)

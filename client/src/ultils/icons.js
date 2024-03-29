@@ -16,6 +16,13 @@ import { FaReply } from "react-icons/fa6";
 import { MdTty } from "react-icons/md";
 import { MdArrowDropDownCircle } from "react-icons/md";
 import { BsThreeDots } from "react-icons/bs";
+import { MdSpaceDashboard } from "react-icons/md";
+import { MdGroups2 } from "react-icons/md";
+import { IoCreate } from "react-icons/io5";
+import { FaClipboardList } from "react-icons/fa6";
+import { AiOutlineCaretDown } from "react-icons/ai";
+import { AiOutlineCaretRight } from "react-icons/ai";
+import { ImHome } from "react-icons/im";
 
 const icons = {
     FaPhone,
@@ -35,7 +42,14 @@ const icons = {
     FaReply,
     MdTty,
     MdArrowDropDownCircle,
-    BsThreeDots
+    BsThreeDots,
+    MdSpaceDashboard,
+    MdGroups2,
+    IoCreate,
+    FaClipboardList,
+    AiOutlineCaretDown,
+    AiOutlineCaretRight,
+    ImHome
 }
 
 export default icons

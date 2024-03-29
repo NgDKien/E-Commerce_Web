@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken')
 const sendMail = require('../ultils/sendMail')
 const crypto = require('crypto')
 const makeToken = require('uniqid')
+const { users } = require("../ultils/constant")
 
 
 // const register = asyncHandler(async (req, res) => {
@@ -276,17 +277,72 @@ const resetPassword = asyncHandler(async (req, res) => {
   })
 })
 
+// const getUsers = asyncHandler(async (req, res) => {
+//   const response = await User.find().select('-refreshToken -password -role')
+//   return res.status(200).json({
+//     success: response ? true : false,
+//     mes: response
+//   })
+// })
+
 const getUsers = asyncHandler(async (req, res) => {
-  const response = await User.find().select('-refreshToken -password -role')
-  return res.status(200).json({
-    success: response ? true : false,
-    mes: response
+  const queries = { ...req.query }
+  const excludeFields = ["limit", "sort", "page", "fields"]
+  excludeFields.forEach((el) => delete queries[el])
+
+  let queryString = JSON.stringify(queries)
+  queryString = queryString.replace(
+    /\b(gte|gt|lt|lte)\b/g,
+    (macthedEl) => `$${macthedEl}`
+  )
+  const formatedQueries = JSON.parse(queryString)
+  if (queries?.name)
+    formatedQueries.name = { $regex: queries.name, $options: "i" }
+  // const query = {}
+  // if (req.query.q) {
+  //     query = {$or : [
+  //         {name : { $regex: req.query.q, $options: 'i' }},
+  //         {email : { $regex: req.query.q, $options: 'i' }},
+  //     ]}
+  // }
+  if (req.query.q) {
+    delete formatedQueries.q
+    formatedQueries["$or"] = [
+      { firstname: { $regex: req.query.q, $options: "i" } },
+      { lastname: { $regex: req.query.q, $options: "i" } },
+      { email: { $regex: req.query.q, $options: "i" } },
+    ]
+  }
+  let queryCommand = User.find(formatedQueries)
+
+  if (req.query.sort) {
+    const sortBy = req.query.sort.split(",").join(" ")
+    queryCommand = queryCommand.sort(sortBy)
+  }
+
+  if (req.query.fields) {
+    const fields = req.query.fields.split(",").join(" ")
+    queryCommand = queryCommand.select(fields)
+  }
+
+  const page = +req.query.page || 1
+  const limit = +req.query.limit || process.env.LIMIT_PRODUCTS
+  const skip = (page - 1) * limit
+  queryCommand.skip(skip).limit(limit)
+  queryCommand.exec(async (err, response) => {
+    if (err) throw new Error(err.message)
+    const counts = await User.find(formatedQueries).countDocuments()
+    return res.status(200).json({
+      success: response ? true : false,
+      counts,
+      users: response ? response : "Cannot get products",
+    })
   })
 })
 
 const deleteUser = asyncHandler(async (req, res) => {
-  const { _id } = req.query
-  const response = await User.findByIdAndDelete(_id)
+  const { uid } = req.params
+  const response = await User.findByIdAndDelete(uid)
   return res.status(200).json({
     success: response ? true : false,
     mes: response
@@ -382,6 +438,14 @@ const updateCart = asyncHandler(async (req, res) => {
   }
 })
 
+const createUsers = asyncHandler(async (req, res) => {
+  const response = await User.create(users)
+  return res.status(200).json({
+    success: response ? true : false,
+    users: response ? response : "Some thing went wrong",
+  })
+})
+
 module.exports = {
   register,
   login,
@@ -396,5 +460,6 @@ module.exports = {
   updateUserByAdmin,
   updateUserAddress,
   updateCart,
-  finalRegister
+  finalRegister,
+  createUsers
 }
