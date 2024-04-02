@@ -30,6 +30,7 @@ export { default as Loading } from './common/Loading'
 export { default as AdminSidebar } from './Sidebar/AdminSidebar'
 export { default as InputForm } from './inputs/InputForm'
 export { default as Select } from './inputs/Select'
+export { default as MarkdownEditor } from './inputs/MarkdownEditor'
 
 
 

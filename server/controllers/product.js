@@ -3,8 +3,14 @@ const asyncHandler = require("express-async-handler")
 const slugify = require("slugify")
 
 const createProduct = asyncHandler(async (req, res) => {
-  if (Object.keys(req.body).length === 0) throw new Error('Missing Inputs')
-  if (req.body && req.body.title) req.body.slug = slugify(req.body.title)
+  const { title, price, description, brand, category, color } = req.body
+  const thumb = req?.files?.thumb[0]?.path
+  const images = req.files?.images?.map((el) => el.path)
+  if (!(title && price && description && brand && category && color))
+    throw new Error("Missing inputs")
+  req.body.slug = slugify(title)
+  if (thumb) req.body.thumb = thumb
+  if (images) req.body.images = images
   const newProduct = await Product.create(req.body)
   return res.status(200).json({
     success: newProduct ? true : false,
@@ -72,8 +78,20 @@ const getProducts = asyncHandler(async (req, res) => {
     }))
     colorQueryObject = { $or: colorQuery }
   }
-  const q = { ...colorQueryObject, ...formatedQueries }
-  let queryCommand = Product.find(q)
+  let queryObject = {}
+  if (queries?.q) {
+    delete formatedQueries.q
+    queryObject = {
+      $or: [
+        { color: { $regex: queries.q, $options: "i" } },
+        { title: { $regex: queries.q, $options: "i" } },
+        { category: { $regex: queries.q, $options: "i" } },
+        { brand: { $regex: queries.q, $options: "i" } },
+      ],
+    }
+  }
+  const qr = { ...colorQueryObject, ...formatedQueries, ...queryObject }
+  let queryCommand = Product.find(qr)
   // if (queries?.brand)
   //   formatedQueries.brand = { $regex: queries.brand, $options: "i" }
 
@@ -98,7 +116,7 @@ const getProducts = asyncHandler(async (req, res) => {
   // Số lượng sp thỏa mãn điều kiện !== số lượng sp trả về 1 lần gọi API
   queryCommand.exec(async (err, response) => {
     if (err) throw new Error(err.message)
-    const counts = await Product.find(q).countDocuments()
+    const counts = await Product.find(qr).countDocuments()
     return res.status(200).json({
       success: response ? true : false,
       counts,
@@ -120,6 +138,9 @@ const getProducts = asyncHandler(async (req, res) => {
 
 const updateProduct = asyncHandler(async (req, res) => {
   const { pid } = req.params
+  const files = req?.files
+  if (files?.thumb) req.body.thumb = files?.thumb[0]?.path
+  if (files?.images) req.body.images = files?.images?.map((el) => el.path)
   if (req.body && req.body.title) req.body.slug = slugify(req.body.title)
   const updatedProduct = await Product.findByIdAndUpdate(pid, req.body, {
     new: true,

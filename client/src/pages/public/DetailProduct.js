@@ -6,6 +6,7 @@ import Slider from 'react-slick'
 import ReactImageMagnify from 'react-image-magnify';
 import { fotmatPrice, formatMoney, renderStarFromNumber } from '../../ultils/helpers'
 import { productExtraInfomation } from '../../ultils/contants'
+import DOMPurify from "dompurify"
 
 
 const settings = {
@@ -88,7 +89,7 @@ const DetailProduct = () => {
             </div>
             <div className='w-main m-auto- mt-4 flex'>
                 <div className='flex flex-col gap-4 w-2/5'>
-                    <div className='w-[458px] h-[458px] border overflow-hidden'>
+                    <div className='w-[458px] h-[458px] border flex items-center overflow-hidden'>
                         <ReactImageMagnify
                             {...{
                                 smallImage: {
@@ -140,6 +141,14 @@ const DetailProduct = () => {
                                     {el}
                                 </li>
                             ))}
+                        {product?.description?.length === 1 && (
+                            <div
+                                className="text-sm line-clamp-[10] mb-8"
+                                dangerouslySetInnerHTML={{
+                                    __html: DOMPurify.sanitize(product?.description[0]),
+                                }}
+                            ></div>
+                        )}
                     </ul>
                     <div className='flex flex-col gap-8'>
                         <div className='flex items-center gap-4'>

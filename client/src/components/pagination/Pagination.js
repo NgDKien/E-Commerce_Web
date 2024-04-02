@@ -45,7 +45,9 @@ const Pagination = ({ totalCount }) => {
       {
         !+params.get("page") ?
           <span className="text-sm italic">
-            {`Show products 1 - ${Math.min(+process.env.REACT_APP_LIMIT || 10)} of ${totalCount}`}
+            {`Show products ${Math.min(totalCount, 1)} 
+            - ${Math.min(+process.env.REACT_APP_LIMIT, totalCount)} 
+            of ${totalCount}`}
           </span> : ''
       }
       {

@@ -23,6 +23,10 @@ import { FaClipboardList } from "react-icons/fa6";
 import { AiOutlineCaretDown } from "react-icons/ai";
 import { AiOutlineCaretRight } from "react-icons/ai";
 import { ImHome } from "react-icons/im";
+import { FaTrashCanArrowUp } from "react-icons/fa6";
+import { BiEdit } from "react-icons/bi";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { BiCustomize } from "react-icons/bi";
 
 const icons = {
     FaPhone,
@@ -49,7 +53,11 @@ const icons = {
     FaClipboardList,
     AiOutlineCaretDown,
     AiOutlineCaretRight,
-    ImHome
+    ImHome,
+    FaTrashCanArrowUp,
+    BiEdit,
+    RiDeleteBin6Line,
+    BiCustomize
 }
 
 export default icons
