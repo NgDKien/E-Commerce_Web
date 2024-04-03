@@ -26,6 +26,7 @@ const ManageProducts = () => {
     const [editProduct, setEditProduct] = useState(null)
     const [counts, setCounts] = useState(0)
     const [update, setUpdate] = useState(false)
+    const [customizeVarriant, setCustomizeVarriant] = useState(null)
 
     const fetchProducts = async (params) => {
         const response = await apiGetProducts({
@@ -88,6 +89,15 @@ const ManageProducts = () => {
                     />
                 </div>
             )}
+            {customizeVarriant && (
+                <div className="absolute inset-0 min-h-screen bg-gray-100 z-50">
+                    <CustomizeVarriants
+                        customizeVarriant={customizeVarriant}
+                        render={render}
+                        setCustomizeVarriant={setCustomizeVarriant}
+                    />
+                </div>
+            )}
             <div className="h-[69px] w-full"></div>
             <div className="p-4 border-b w-full bg-gray-100 flex justify-between items-center fixed top-0">
                 <h1 className="text-3xl font-bold tracking-tight">Manage products</h1>
@@ -116,7 +126,7 @@ const ManageProducts = () => {
                         <th className="text-center py-2">Sold</th>
                         <th className="text-center py-2">Color</th>
                         <th className="text-center py-2">Ratings</th>
-                        {/* <th className="text-center py-2">Varriants</th> */}
+                        <th className="text-center py-2">Varriants</th>
                         <th className="text-center py-2">UpdatedAt</th>
                         <th className="text-center py-2">Actions</th>
                     </tr>
@@ -143,7 +153,7 @@ const ManageProducts = () => {
                             <td className="text-center py-2">{el.sold}</td>
                             <td className="text-center py-2">{el.color}</td>
                             <td className="text-center py-2">{el.totalRatings}</td>
-                            {/* <td className="text-center py-2">{el?.varriants?.length || 0}</td> */}
+                            <td className="text-center py-2">{el?.varriants?.length || 0}</td>
                             <td className="text-center py-2">
                                 {moment(el.createdAt).format("DD/MM/YYYY")}
                             </td>
@@ -160,12 +170,12 @@ const ManageProducts = () => {
                                 >
                                     <RiDeleteBin6Line size={20} />
                                 </span>
-                                {/* <span
-                                onClick={() => setCustomizeVarriant(el)}
-                                className="text-blue-500 hover:text-orange-500 inline-block hover:underline cursor-pointer px-1"
+                                <span
+                                    onClick={() => setCustomizeVarriant(el)}
+                                    className="text-blue-500 hover:text-orange-500 inline-block hover:underline cursor-pointer px-1"
                                 >
-                                <BiCustomize size={20} />
-                                </span> */}
+                                    <BiCustomize size={20} />
+                                </span>
                             </td>
                         </tr>
                     ))}
