@@ -43,7 +43,7 @@ function App() {
     dispatch(getCategories())
   }, [])
   return (
-    <div className="relative overflow-y-auto font-main">
+    <div className="relative overflow-y-auto font-main h-screen">
       {isShowModal && <Modal>{modalChildren}</Modal>}
       <Routes>
         <Route path={path.PUBLIC} element={<Public />}>
