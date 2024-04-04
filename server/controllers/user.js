@@ -355,7 +355,7 @@ const updateUser = asyncHandler(async (req, res) => {
   const { _id } = req.user
   const { firstname, lastname, email, mobile, address } = req.body
   const data = { firstname, lastname, email, mobile, address }
-  // if (req.file) data.avatar = req.file.path
+  if (req.file) data.avatar = req.file.path
   //Nếu ko có id hoặc mảng rỗng
   if (!_id || Object.keys(req.body).length === 0)
     throw new Error("Missing inputs")

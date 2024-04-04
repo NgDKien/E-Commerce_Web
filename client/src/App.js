@@ -25,8 +25,8 @@ import {
 import {
   MemberLayout,
   Personal,
-  // History,
-  // Wishlist,
+  History,
+  Wishlist,
   // Checkout,
 } from "pages/member"
 import path from './ultils/path'
@@ -67,9 +67,9 @@ function App() {
         </Route>
         <Route path={path.MEMBER} element={<MemberLayout />}>
           <Route path={path.PERSONAL} element={<Personal />} />
-          {/* <Route path={path.MY_CART} element={<DetailCart />} />
+          {/* <Route path={path.MY_CART} element={<DetailCart />} /> */}
           <Route path={path.WISHLIST} element={<Wishlist />} />
-          <Route path={path.HISTORY} element={<History />} /> */}
+          <Route path={path.HISTORY} element={<History />} />
         </Route>
         <Route path={path.FINAL_REGISTER} element={<FinalRegister />} />
         <Route path={path.LOGIN} element={<Login />} />

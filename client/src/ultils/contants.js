@@ -263,3 +263,35 @@ export const blockStatus = [
         value: "Active",
     },
 ]
+
+const { RiHistoryFill, BsBookmarkHeart } = icons
+export const memberSidebar = [
+    {
+        id: 1,
+        type: "SINGLE",
+        text: "Personal",
+        path: `/${path.MEMBER}/${path.PERSONAL}`,
+        icon: <MdSpaceDashboard size={20} />,
+    },
+    {
+        id: 2,
+        type: "SINGLE",
+        text: "My cart",
+        path: `/${path.MEMBER}/${path.MY_CART}`,
+        icon: <MdGroups2 size={20} />,
+    },
+    {
+        id: 4,
+        type: "SINGLE",
+        text: "Buy histories",
+        path: `/${path.MEMBER}/${path.HISTORY}`,
+        icon: <RiHistoryFill size={20} />,
+    },
+    {
+        id: 40,
+        type: "SINGLE",
+        text: "Wishlist",
+        path: `/${path.MEMBER}/${path.WISHLIST}`,
+        icon: <BsBookmarkHeart size={20} />,
+    },
+]

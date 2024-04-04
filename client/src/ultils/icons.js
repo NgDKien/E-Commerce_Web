@@ -27,6 +27,9 @@ import { FaTrashCanArrowUp } from "react-icons/fa6";
 import { BiEdit } from "react-icons/bi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { BiCustomize } from "react-icons/bi";
+import { RiBillLine } from "react-icons/ri";
+import { RiHistoryFill } from "react-icons/ri";
+import { BsBookmarkHeart } from "react-icons/bs";
 
 const icons = {
     FaPhone,
@@ -57,7 +60,10 @@ const icons = {
     FaTrashCanArrowUp,
     BiEdit,
     RiDeleteBin6Line,
-    BiCustomize
+    BiCustomize,
+    RiBillLine,
+    RiHistoryFill,
+    BsBookmarkHeart
 }
 
 export default icons
