@@ -10,7 +10,8 @@ import {
   Blogs,
   Products,
   FinalRegister,
-  ResetPassword
+  ResetPassword,
+  DetailCart
 } from './pages/public'
 import {
   AdminLayout,
@@ -34,16 +35,25 @@ import { getCategories } from './store/app/asyncActions'
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import { Modal } from './components';
+import { Modal, Cart } from './components';
+import { showCart } from 'store/app/appSlice';
 
 function App() {
   const dispatch = useDispatch()
-  const { isShowModal, modalChildren } = useSelector(state => state.app)
+  const { isShowModal, modalChildren, isShowCart } = useSelector(state => state.app)
   useEffect(() => {
     dispatch(getCategories())
   }, [])
   return (
     <div className="relative overflow-y-auto font-main h-screen">
+      {isShowCart && (
+        <div
+          onClick={() => dispatch(showCart())}
+          className="absolute inset-0 bg-overlay z-50 flex justify-end"
+        >
+          <Cart />
+        </div>
+      )}
       {isShowModal && <Modal>{modalChildren}</Modal>}
       <Routes>
         <Route path={path.PUBLIC} element={<Public />}>
@@ -54,6 +64,7 @@ function App() {
           <Route path={path.OUR_SERVICES} element={<Services />} />
           <Route path={path.PRODUCTS} element={<Products />} />
           <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />
+          {/* <Route path={path.DETAIL_CART} element={<DetailCart />} /> */}
           <Route path={path.ALL} element={<Home />} />
         </Route>
         <Route path={path.ADMIN} element={<AdminLayout />}>
@@ -67,7 +78,7 @@ function App() {
         </Route>
         <Route path={path.MEMBER} element={<MemberLayout />}>
           <Route path={path.PERSONAL} element={<Personal />} />
-          {/* <Route path={path.MY_CART} element={<DetailCart />} /> */}
+          <Route path={path.MY_CART} element={<DetailCart />} />
           <Route path={path.WISHLIST} element={<Wishlist />} />
           <Route path={path.HISTORY} element={<History />} />
         </Route>

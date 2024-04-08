@@ -30,6 +30,11 @@ import { BiCustomize } from "react-icons/bi";
 import { RiBillLine } from "react-icons/ri";
 import { RiHistoryFill } from "react-icons/ri";
 import { BsBookmarkHeart } from "react-icons/bs";
+import { IoMdCart } from "react-icons/io";
+import { BsFillCartPlusFill } from "react-icons/bs";
+import { BsFillCartCheckFill } from "react-icons/bs";
+import { AiFillCloseCircle } from "react-icons/ai";
+import { ImBin } from "react-icons/im";
 
 const icons = {
     FaPhone,
@@ -63,7 +68,12 @@ const icons = {
     BiCustomize,
     RiBillLine,
     RiHistoryFill,
-    BsBookmarkHeart
+    BsBookmarkHeart,
+    IoMdCart,
+    BsFillCartPlusFill,
+    BsFillCartCheckFill,
+    AiFillCloseCircle,
+    ImBin
 }
 
 export default icons

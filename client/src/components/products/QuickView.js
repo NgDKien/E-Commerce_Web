@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 const QuickView = () => {
     return (
@@ -6,4 +6,4 @@ const QuickView = () => {
     )
 }
 
-export default QuickView
+export default memo(QuickView)

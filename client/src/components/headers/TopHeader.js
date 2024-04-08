@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from "react"
+import React, { useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import path from "../../ultils/path"
 import { getCurrent } from "../../store/user/asyncActions"
@@ -58,4 +58,4 @@ const TopHeader = () => {
   )
 }
 
-export default memo(TopHeader)
+export default TopHeader

@@ -1,13 +1,19 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { useParams } from 'react-router-dom'
-import { apiGetProduct, apiGetProducts } from '../../apis'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
+import { useParams, createSearchParams } from 'react-router-dom'
+import { apiGetProduct, apiGetProducts, apiUpdateCart } from '../../apis'
 import { Breadcrumb, Button, SelectQuantity, ProductExtraInfoItem, ProductInformation, CustomSlider } from '../../components'
 import Slider from 'react-slick'
 import ReactImageMagnify from 'react-image-magnify';
 import { fotmatPrice, formatMoney, renderStarFromNumber } from '../../ultils/helpers'
 import { productExtraInfomation } from '../../ultils/contants'
+import { getCurrent } from "store/user/asyncActions"
+import { useSelector } from 'react-redux'
 import DOMPurify from "dompurify"
+import path from 'ultils/path'
+import Swal from 'sweetalert2'
+import { toast } from 'react-toastify'
 import clsx from "clsx"
+import withBaseComponent from 'hocs/withBaseComponent'
 
 
 const settings = {
@@ -20,6 +26,7 @@ const settings = {
 
 const DetailProduct = ({ isQuickView, data, location, dispatch, navigate }) => {
     const params = useParams()
+    const titleRef = useRef()
     const [product, setProduct] = useState(null)
     const [quantity, setQuantity] = useState(1)
     const [relatedProducts, setRelatedProducts] = useState(null)
@@ -28,6 +35,7 @@ const DetailProduct = ({ isQuickView, data, location, dispatch, navigate }) => {
     const [varriant, setVarriant] = useState(null)
     const [pid, setPid] = useState(null)
     const [category, setCategory] = useState(null)
+    const { current } = useSelector((state) => state.user)
     const [currentProduct, setCurrentProduct] = useState({
         title: "",
         thumb: "",
@@ -78,6 +86,38 @@ const DetailProduct = ({ isQuickView, data, location, dispatch, navigate }) => {
         setUpdate(!update)
     }, [update])
 
+    const handleAddToCart = async () => {
+        if (!current)
+            return Swal.fire({
+                title: "Almost...",
+                text: "Please login first!",
+                icon: "info",
+                cancelButtonText: "Not now!",
+                showCancelButton: true,
+                confirmButtonText: "Go login page",
+            }).then(async (rs) => {
+                if (rs.isConfirmed)
+                    navigate({
+                        pathname: `/${path.LOGIN}`,
+                        search: createSearchParams({
+                            redirect: location.pathname,
+                        }).toString(),
+                    })
+            })
+        const response = await apiUpdateCart({
+            pid,
+            color: currentProduct.color || product?.color,
+            quantity,
+            price: currentProduct.price || product.price,
+            thumbnail: currentProduct.thumb || product.thumb,
+            title: currentProduct.title || product.title,
+        })
+        if (response.success) {
+            toast.success(response.mes)
+            dispatch(getCurrent())
+        } else toast.error(response.mes)
+    }
+
     useEffect(() => {
         if (pid) fetchProductData()
     }, [update])
@@ -88,6 +128,7 @@ const DetailProduct = ({ isQuickView, data, location, dispatch, navigate }) => {
             fetchProducts()
         }
         window.scrollTo(0, 0)
+        titleRef.current.scrollIntoView({ block: 'center' })
     }, [pid])
 
     useEffect(() => {
@@ -124,7 +165,7 @@ const DetailProduct = ({ isQuickView, data, location, dispatch, navigate }) => {
         <div className={clsx("w-full")}>
             {!isQuickView && (
                 <div className='w-full h-[81px] flex justify-center items-center bg-gray-100'>
-                    <div className='w-main pl-5'>
+                    <div ref={titleRef} className='w-main pl-5'>
                         <h3 className='font-semibold'>
                             {currentProduct.title || product?.title}
                         </h3>
@@ -267,7 +308,7 @@ const DetailProduct = ({ isQuickView, data, location, dispatch, navigate }) => {
                             />
                         </div>
                         <Button
-                            // handleOnClick={handleAddToCart} 
+                            handleOnClick={handleAddToCart}
                             fw
                         >
                             Add to Cart
@@ -310,4 +351,4 @@ const DetailProduct = ({ isQuickView, data, location, dispatch, navigate }) => {
     )
 }
 
-export default DetailProduct
+export default withBaseComponent(DetailProduct)

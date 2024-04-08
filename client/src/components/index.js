@@ -10,7 +10,7 @@ export { default as Countdown } from './common/Countdown'
 export { default as FeatureProducts } from './products/FeatureProducts'
 export { default as ProductCard } from './products/ProductCard'
 export { default as CustomSlider } from './common/CustomSlider'
-export { default as TopHeader } from './headers/TopHeader'
+// export { default as TopHeader } from './headers/TopHeader'
 export { default as Footer } from './footer/Footer'
 export { default as InputField } from './inputs/InputField'
 export { default as Button } from './buttons/Button'
@@ -34,6 +34,7 @@ export { default as MarkdownEditor } from './inputs/MarkdownEditor'
 export { default as CustomizeVarriants } from './products/CustomizeVarriants'
 export { default as MemberSidebar } from './Sidebar/MemberSidebar'
 export { default as QuickView } from './products/QuickView'
+export { default as Cart } from './products/Cart'
 
 
 

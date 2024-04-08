@@ -23,7 +23,7 @@ const Products = () => {
 
     const fetchProductsByCategory = async (queries) => {
         // if (category && category !== "products") queries.category = category
-        const response = await apiGetProducts(queries)
+        const response = await apiGetProducts({ ...queries, category })
         if (response.success) setProducts(response)
     }
 
