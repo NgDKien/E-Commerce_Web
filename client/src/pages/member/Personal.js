@@ -7,14 +7,14 @@ import avatar from 'assets/avatarDefault.png'
 import { apiUpdateCurrent } from 'apis'
 import { getCurrent } from 'store/user/asyncActions'
 import { toast } from 'react-toastify'
-import { useSearchParams, useNavigate } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
+import withBaseComponent from 'hocs/withBaseComponent'
 
-const Personal = () => {
+const Personal = ({ navigate }) => {
     const { register, formState: { errors, isDirty }, handleSubmit, reset, watch } = useForm()
     const { current } = useSelector(state => state.user)
     const dispatch = useDispatch()
     const [searchParams] = useSearchParams()
-    const navigate = useNavigate()
 
     const handleUpdateInfor = async (data) => {
         const formData = new FormData()
@@ -89,7 +89,7 @@ const Personal = () => {
 
                     }}
                 />
-                {/* <InputForm
+                <InputForm
                     label='Address'
                     register={register}
                     errors={errors}
@@ -97,7 +97,7 @@ const Personal = () => {
                     validate={{
                         required: 'This field is required',
                     }}
-                /> */}
+                />
                 <div className='flex items-center gap-2'>
                     <span className='font-medium'>Account status:</span>
                     <span>{current?.isBlocked ? 'Blocked' : 'Actived'}</span>
@@ -123,4 +123,4 @@ const Personal = () => {
     )
 }
 
-export default Personal
+export default withBaseComponent(Personal)

@@ -295,3 +295,14 @@ export const memberSidebar = [
         icon: <BsBookmarkHeart size={20} />,
     },
 ]
+
+export const statusOrders = [
+    {
+        label: "Cancelled",
+        value: "Cancelled",
+    },
+    {
+        label: "Succeed",
+        value: "Succeed",
+    },
+]

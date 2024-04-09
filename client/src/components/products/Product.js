@@ -5,7 +5,7 @@ import trending from '../../assets/trending.png'
 import { renderStarFromNumber } from '../../ultils/helpers'
 import { SelectOption } from '..'
 import icons from "../../ultils/icons";
-import { Link } from "react-router-dom";
+import { Link, createSearchParams } from "react-router-dom";
 import { DetailProduct } from "pages/public"
 import withBaseComponent from "hocs/withBaseComponent"
 import { showModal } from "store/app/appSlice"
@@ -18,65 +18,10 @@ import path from 'ultils/path'
 
 const { IoEyeSharp, FaHeart, BsFillCartPlusFill, BsFillCartCheckFill } = icons
 
-const Product = ({ productData, isNew, normal, navigate, dispatch }) => {
+const Product = ({ productData, isNew, normal, navigate, dispatch, location }) => {
   const [isShowOption, setIsShowOption] = useState(false)
   const { current } = useSelector(state => state.user)
   console.log({ current, productData })
-  // const handleClickOptions = async (e, flag) => {
-  //     e.stopPropagation()
-  //     if (flag === "CART") {
-  //       if (!current)
-  //         return Swal.fire({
-  //           title: "Almost...",
-  //           text: "Please login first!",
-  //           icon: "info",
-  //           cancelButtonText: "Not now!",
-  //           showCancelButton: true,
-  //           confirmButtonText: "Go login page",
-  //         }).then(async (rs) => {
-  //           if (rs.isConfirmed)
-  //             navigate({
-  //               pathname: `/${path.LOGIN}`,
-  //               search: createSearchParams({
-  //                 redirect: location.pathname,
-  //               }).toString(),
-  //             })
-  //         })
-  //       const response = await apiUpdateCart({
-  //         pid: productData?._id,
-  //         color: productData?.color,
-  //         quantity: 1,
-  //         price: productData?.price,
-  //         thumbnail: productData?.thumb,
-  //         title: productData?.title,
-  //       })
-  //       if (response.success) {
-  //         toast.success(response.mes)
-  //         dispatch(getCurrent())
-  //       } else toast.error(response.mes)
-  //     }
-  //     if (flag === "WISHLIST") {
-  //       const response = await apiUpdateWishlist(pid)
-  //       if (response.success) {
-  //         dispatch(getCurrent())
-  //         toast.success(response.mes)
-  //       } else toast.error(response.mes)
-  //     }
-  //     if (flag === "QUICK_VIEW") {
-  //       dispatch(
-  //         showModal({
-  //           isShowModal: true,
-  //           modalChildren: (
-  //             <DetailProduct
-  //               data={{ pid: productData?._id, category: productData?.category }}
-  //               isQuickView
-  //             />
-  //           ),
-  //         })
-  //       )
-  //     }
-  //   }
-
   const handleClickOptions = async (e, flag) => {
     e.stopPropagation()
     if (flag === "CART") {
@@ -92,9 +37,9 @@ const Product = ({ productData, isNew, normal, navigate, dispatch }) => {
           if (rs.isConfirmed)
             navigate({
               pathname: `/${path.LOGIN}`,
-              // search: createSearchParams({
-              //   redirect: location.pathname,
-              // }).toString(),
+              search: createSearchParams({
+                redirect: location.pathname,
+              }).toString(),
             })
         })
       const response = await apiUpdateCart({
@@ -110,7 +55,14 @@ const Product = ({ productData, isNew, normal, navigate, dispatch }) => {
         dispatch(getCurrent())
       } else toast.error(response.mes)
     }
-    if (flag === "WISHLIST") console.log("wishlist")
+    if (flag === "WISHLIST") {
+      // const response = await apiUpdateWishlist(pid)
+      // if (response.success) {
+      //   dispatch(getCurrent())
+      //   toast.success(response.mes)
+      // } else toast.error(response.mes)
+      console.log('abc')
+    }
     if (flag === "QUICK_VIEW") {
       dispatch(
         showModal({
