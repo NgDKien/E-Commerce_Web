@@ -68,7 +68,6 @@ const getUserOrders = asyncHandler(async (req, res) => {
   )
   const formatedQueries = JSON.parse(queryString)
   const qr = { ...formatedQueries, orderBy: _id }
-  console.log(qr)
   let queryCommand = Order.find(qr)
 
   // Sorting

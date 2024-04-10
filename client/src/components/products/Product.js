@@ -9,16 +9,17 @@ import { Link, createSearchParams } from "react-router-dom";
 import { DetailProduct } from "pages/public"
 import withBaseComponent from "hocs/withBaseComponent"
 import { showModal } from "store/app/appSlice"
-import { apiUpdateCart } from 'apis'
+import { apiUpdateCart, apiUpdateWishlist } from 'apis'
 import { toast } from 'react-toastify'
 import { getCurrent } from 'store/user/asyncActions'
 import { useSelector } from 'react-redux'
 import Swal from 'sweetalert2'
 import path from 'ultils/path'
+import clsx from "clsx";
 
 const { IoEyeSharp, FaHeart, BsFillCartPlusFill, BsFillCartCheckFill } = icons
 
-const Product = ({ productData, isNew, normal, navigate, dispatch, location }) => {
+const Product = ({ productData, isNew, normal, navigate, dispatch, location, pid, className }) => {
   const [isShowOption, setIsShowOption] = useState(false)
   const { current } = useSelector(state => state.user)
   console.log({ current, productData })
@@ -56,11 +57,11 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
       } else toast.error(response.mes)
     }
     if (flag === "WISHLIST") {
-      // const response = await apiUpdateWishlist(pid)
-      // if (response.success) {
-      //   dispatch(getCurrent())
-      //   toast.success(response.mes)
-      // } else toast.error(response.mes)
+      const response = await apiUpdateWishlist(pid)
+      if (response.success) {
+        dispatch(getCurrent())
+        toast.success(response.mes)
+      } else toast.error(response.mes)
       console.log('abc')
     }
     if (flag === "QUICK_VIEW") {
@@ -79,7 +80,7 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
   }
 
   return (
-    <div className="w-full text-base px-[10px]">
+    <div className={clsx("w-full text-base px-[10px]", className)}>
       <div
         className="w-full border p-[15px] flex flex-col items-center"
         onClick={(e) =>
@@ -113,7 +114,11 @@ const Product = ({ productData, isNew, normal, navigate, dispatch, location }) =
                 <SelectOption icon={<BsFillCartPlusFill />} />
               </span>
             )}
-            <span title="Add to Wishlist" onClick={(e) => handleClickOptions(e, 'WISHLIST')}><SelectOption icon={<FaHeart />} /></span>
+            <span title="Add to Wishlist" onClick={(e) => handleClickOptions(e, 'WISHLIST')}>
+              <SelectOption
+                icon={<FaHeart color={current?.wishlist?.some((i) => i._id === pid) ? "red" : "gray"} />}
+              />
+            </span>
           </div>}
           <img
             src={productData?.thumb || "https://apollobattery.com.au/wp-content/uploads/2022/08/default-product-image.png"}
