@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Sidebar, Banner, BestSeller, DealDaily, FeatureProducts, CustomSlider } from '../../components'
 import { useSelector } from 'react-redux'
+import withBaseComponent from "hocs/withBaseComponent"
 import icons from '../../ultils/icons'
+import { createSearchParams } from "react-router-dom"
 
 const { IoIosArrowForward } = icons
 
-const Home = () => {
+const Home = ({ navigate }) => {
     const { newProducts } = useSelector(state => state.products)
     const { categories } = useSelector(state => state.app)
     return (
@@ -55,14 +57,14 @@ const Home = () => {
                                                 <span
                                                     key={item}
                                                     className="flex cursor-pointer hover:underline gap-1 items-center text-gray-500"
-                                                //   onClick={() =>
-                                                //     navigate({
-                                                //       pathname: `/${el.title.toLowerCase()}`,
-                                                //       search: createSearchParams({
-                                                //         brand: item,
-                                                //       }).toString(),
-                                                //     })
-                                                //   }
+                                                    onClick={() =>
+                                                        navigate({
+                                                            pathname: `/${el.title.toLowerCase()}`,
+                                                            search: createSearchParams({
+                                                                brand: item,
+                                                            }).toString(),
+                                                        })
+                                                    }
                                                 >
                                                     <IoIosArrowForward size={14} />
                                                     <li>{item}</li>
@@ -84,4 +86,4 @@ const Home = () => {
     )
 }
 
-export default Home
+export default withBaseComponent(Home)
