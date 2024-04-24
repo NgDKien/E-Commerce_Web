@@ -185,7 +185,7 @@ export const voteOptions = [
     },
 ]
 
-const { MdSpaceDashboard, MdGroups2, IoCreate, FaClipboardList } = icons
+const { MdSpaceDashboard, MdGroups2, IoCreate, FaClipboardList, MdOutlinePermMedia } = icons
 export const adminSidebar = [
     {
         id: 1,
@@ -224,22 +224,22 @@ export const adminSidebar = [
         path: `/${path.ADMIN}/${path.MANAGE_ORDER}`,
         icon: <FaClipboardList size={20} />,
     },
-    // {
-    //   id: 31,
-    //   type: "PARENT",
-    //   text: "Blogs",
-    //   icon: <TbBrandProducthunt size={20} />,
-    //   submenu: [
-    //     {
-    //       text: "Create blog",
-    //       path: `/${path.ADMIN}/${path.CREATE_BLOG}`,
-    //     },
-    //     {
-    //       text: "Manage blogs",
-    //       path: `/${path.ADMIN}/${path.MANAGE_BLOGS}`,
-    //     },
-    //   ],
-    // },
+    {
+        id: 31,
+        type: "PARENT",
+        text: "Blogs",
+        icon: <MdOutlinePermMedia size={20} />,
+        submenu: [
+            {
+                text: "Create blog",
+                path: `/${path.ADMIN}/${path.CREATE_BLOG}`,
+            },
+            {
+                text: "Manage blogs",
+                path: `/${path.ADMIN}/${path.MANAGE_BLOGS}`,
+            },
+        ],
+    },
 ]
 
 export const roles = [

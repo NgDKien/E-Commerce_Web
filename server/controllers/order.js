@@ -68,7 +68,7 @@ const getUserOrders = asyncHandler(async (req, res) => {
   )
   const formatedQueries = JSON.parse(queryString)
   const qr = { ...formatedQueries, orderBy: _id }
-  let queryCommand = Order.find(qr)
+  let queryCommand = Order.find(qr).populate("orderBy", "firstname lastname")
 
   // Sorting
   if (req.query.sort) {
@@ -146,9 +146,19 @@ const getOrders = asyncHandler(async (req, res) => {
   })
 })
 
+const deleteOrderByAdmin = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  const rs = await Order.findByIdAndDelete(id)
+  return res.json({
+    success: rs ? true : false,
+    mes: rs ? "Deleted" : "Something went wrong",
+  })
+})
+
 module.exports = {
   createOrder,
   updateStatus,
   getUserOrders,
-  getOrders
+  getOrders,
+  deleteOrderByAdmin
 }

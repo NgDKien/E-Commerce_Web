@@ -66,3 +66,16 @@ export const apiGetUserOrders = (params) =>
         method: "get",
         params,
     })
+
+export const apiUpdateStatus = (oid, data) =>
+    axios({
+        url: "/order/status/" + oid,
+        method: "put",
+        data,
+    })
+
+export const apiDeleteOrderByAdmin = (oid) =>
+    axios({
+        url: "/order/admin/" + oid,
+        method: "delete",
+    })

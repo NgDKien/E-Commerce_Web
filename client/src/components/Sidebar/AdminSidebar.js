@@ -4,7 +4,7 @@ import { adminSidebar } from "ultils/contants"
 import { NavLink, Link, useNavigate } from "react-router-dom"
 import clsx from "clsx"
 import icons from "../../ultils/icons";
-// import withBaseComponent from "hocs/withBaseComponent"
+import withBaseComponent from "hocs/withBaseComponent"
 
 const { AiOutlineCaretDown, AiOutlineCaretRight, ImHome } = icons
 
@@ -95,4 +95,4 @@ const AdminSidebar = () => {
     )
 }
 
-export default memo(AdminSidebar)
+export default withBaseComponent(AdminSidebar)
