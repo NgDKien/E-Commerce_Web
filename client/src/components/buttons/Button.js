@@ -1,5 +1,5 @@
 import React, { memo } from "react"
-// import { CgSpinner } from "react-icons/cg"
+import { CgSpinnerTwo } from "react-icons/cg"
 
 const Button = ({
     children,
@@ -7,9 +7,7 @@ const Button = ({
     style,
     fw,
     type = "button",
-    //   disabled,
-    iconsBefore,
-    iconsAfter
+    disabled,
 }) => {
     return (
         <button
@@ -24,13 +22,12 @@ const Button = ({
                 handleOnClick && handleOnClick()
             }}
         >
-            {/* {disabled && (
-        <span className="animate-spin">
-          <CgSpinner size={18} />
-        </span>
-      )}
-      {children} */}
-            <span>{children}</span>
+            {disabled && (
+                <span className="animate-spin">
+                    <CgSpinnerTwo size={18} />
+                </span>
+            )}
+            {children}
         </button>
     )
 }

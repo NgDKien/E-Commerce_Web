@@ -3,7 +3,7 @@ import appSlice from './app/appSlice';
 import productSlice from './products/productSlice';
 import userSlice from './user/userSlice';
 import storage from 'redux-persist/lib/storage'
-import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
+import { persistStore, persistReducer } from 'redux-persist'
 
 const commonConfig = {
   storage,
@@ -29,11 +29,7 @@ export const store = configureStore({
   },
   //Fix lỗi non-serializable trên tab console.log
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoreActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      }
-    }),
+    getDefaultMiddleware({ serializableCheck: false }),
 });
 
 export const persistor = persistStore(store)

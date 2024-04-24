@@ -2,74 +2,111 @@ const Blog = require("../models/blog")
 const asyncHandler = require("express-async-handler")
 
 const createNewBlog = asyncHandler(async (req, res) => {
-  const { title, description, category } = req.body
-  if (!title || !description || !category) throw new Error("Missing inputs")
+  const { title, description, hashtags } = req.body
+  if (!req.file) throw new Error("Missing inputs")
+  if (!title || !description || !hashtags) throw new Error("Missing inputs")
   const response = await Blog.create(req.body)
   return res.json({
     success: response ? true : false,
-    mes: response ? "Created blog." : "Cannot create new blog",
+    mes: response ? "Blog Created." : "Cannot create new blog",
   })
 })
 
 const updateBlog = asyncHandler(async (req, res) => {
-    const { bid } = req.params
-    if (Object.keys(req.body).length === 0) throw new Error('Missing Inputs')
-    const response = await Blog.findByIdAndUpdate(bid, req.body, { new: true })
-    return res.json({
-      success: response ? true : false,
-      mes: response ? "Updated." : "Cannot update blog",
-    })
+  const { bid } = req.params
+  const response = await Blog.findByIdAndUpdate(bid, req.body, { new: true })
+  return res.json({
+    success: response ? true : false,
+    mes: response ? "Updated." : "Cannot update blog",
+  })
 })
 
 const getBlogs = asyncHandler(async (req, res) => {
-    const response = await Blog.find()
-    return res.json({
-        success: response ? true : false,
-        blog: response ? response : "Cannot get blogs",
+  const queries = { ...req.query }
+  const excludeFields = ["limit", "sort", "page", "fields"]
+  excludeFields.forEach((el) => delete queries[el])
+  let queryString = JSON.stringify(queries)
+  queryString = queryString.replace(
+    /\b(gte|gt|lt|lte)\b/g,
+    (macthedEl) => `$${macthedEl}`
+  )
+  const formatedQueries = JSON.parse(queryString)
+  let queryObject = {}
+  if (queries?.q) {
+    delete formatedQueries.q
+    queryObject = {
+      $or: [
+        { title: { $regex: queries.q, $options: "i" } },
+        // { description: { $regex: queries.q, $options: 'i' } },
+      ],
+    }
+  }
+  const qr = { ...formatedQueries, ...queryObject }
+  let queryCommand = Blog.find(qr)
+  if (req.query.sort) {
+    const sortBy = req.query.sort.split(",").join(" ")
+    queryCommand = queryCommand.sort(sortBy)
+  }
+  if (req.query.fields) {
+    const fields = req.query.fields.split(",").join(" ")
+    queryCommand = queryCommand.select(fields)
+  }
+  const page = +req.query.page || 1
+  const limit = +req.query.limit || process.env.LIMIT_PRODUCTS
+  const skip = (page - 1) * limit
+  queryCommand.skip(skip).limit(limit)
+  queryCommand.exec(async (err, response) => {
+    if (err) throw new Error(err.message)
+    const counts = await Blog.find(qr).countDocuments()
+    return res.status(200).json({
+      success: response ? true : false,
+      counts,
+      blogs: response ? response : "Cannot get blogs",
     })
+  })
 })
 
 const likeBlog = asyncHandler(async (req, res) => {
-    //Id của user
-    const { _id } = req.user
-    //Id của bài đăng
-    const { bid } = req.params
-    if (!bid) throw new Error('Missing Inputs !')
-    const blog = await Blog.findById(bid)
-    const alreadyDisliked = blog?.dislikes?.find((el) => el.toString() === _id)
-    if (alreadyDisliked) {
-      const response = await Blog.findByIdAndUpdate(
-        bid,
-        { $pull: { dislikes: _id }, isDisliked: false },
-        { new: true }
-      )
-      return res.json({
-        success: response ? true : false,
-        rs: response,
-      })
-    }
-    const isLiked = blog?.likes?.find((el) => el.toString() === _id)
-    if (isLiked) {
-      const response = await Blog.findByIdAndUpdate(
-        bid,
-        { $pull: { likes: _id } },
-        { new: true }
-      )
-      return res.json({
-        success: response ? true : false,
-        rs: response,
-      })
-    } else {
-      const response = await Blog.findByIdAndUpdate(
-        bid,
-        { $push: { likes: _id } },
-        { new: true }
-      )
-      return res.json({
-        success: response ? true : false,
-        rs: response,
-      })
-    }
+  //Id của user
+  const { _id } = req.user
+  //Id của bài đăng
+  const { bid } = req.params
+  if (!bid) throw new Error('Missing Inputs !')
+  const blog = await Blog.findById(bid)
+  const alreadyDisliked = blog?.dislikes?.find((el) => el.toString() === _id)
+  if (alreadyDisliked) {
+    const response = await Blog.findByIdAndUpdate(
+      bid,
+      { $pull: { dislikes: _id }, isDisliked: false },
+      { new: true }
+    )
+    return res.json({
+      success: response ? true : false,
+      rs: response,
+    })
+  }
+  const isLiked = blog?.likes?.find((el) => el.toString() === _id)
+  if (isLiked) {
+    const response = await Blog.findByIdAndUpdate(
+      bid,
+      { $pull: { likes: _id } },
+      { new: true }
+    )
+    return res.json({
+      success: response ? true : false,
+      rs: response,
+    })
+  } else {
+    const response = await Blog.findByIdAndUpdate(
+      bid,
+      { $push: { likes: _id } },
+      { new: true }
+    )
+    return res.json({
+      success: response ? true : false,
+      rs: response,
+    })
+  }
 })
 
 const dislikeBlog = asyncHandler(async (req, res) => {
@@ -154,12 +191,12 @@ const uploadImagesBlog = asyncHandler(async (req, res) => {
 })
 
 module.exports = {
-    createNewBlog,
-    updateBlog,
-    getBlogs,
-    likeBlog,
-    dislikeBlog,
-    getBlog,
-    deleteBlog,
-    uploadImagesBlog
+  createNewBlog,
+  updateBlog,
+  getBlogs,
+  likeBlog,
+  dislikeBlog,
+  getBlog,
+  deleteBlog,
+  uploadImagesBlog
 }

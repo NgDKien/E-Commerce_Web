@@ -37,6 +37,7 @@ import { AiFillCloseCircle } from "react-icons/ai";
 import { ImBin } from "react-icons/im";
 import { TbBrandProducthunt } from "react-icons/tb";
 import { MdOutlinePermMedia } from "react-icons/md";
+import { CgSpinnerTwo } from "react-icons/cg";
 
 const icons = {
     FaPhone,
@@ -77,7 +78,8 @@ const icons = {
     AiFillCloseCircle,
     ImBin,
     TbBrandProducthunt,
-    MdOutlinePermMedia
+    MdOutlinePermMedia,
+    CgSpinnerTwo
 }
 
 export default icons

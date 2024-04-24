@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Sidebar, Banner, BestSeller, DealDaily, FeatureProducts, CustomSlider } from '../../components'
+import { Sidebar, Banner, BestSeller, DealDaily, FeatureProducts, CustomSlider, Blogs } from '../../components'
 import { useSelector } from 'react-redux'
 import withBaseComponent from "hocs/withBaseComponent"
 import icons from '../../ultils/icons'
@@ -78,9 +78,7 @@ const Home = ({ navigate }) => {
                 </div>
             </div>
             <div className="my-8 w-main m-auto">
-                <h3 className="text-[20px] font-semibold py-[15px] border-b-2 border-main">
-                    BLOG POSTS
-                </h3>
+                <Blogs />
             </div>
         </>
     )

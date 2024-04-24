@@ -3,7 +3,8 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
   theme: {
     fontFamily: {
-      main: ['Poppins', 'sans-serif;']
+      main: ['Poppins', 'sans-serif;'],
+      jp: ["Noto Sans JP", "sans-serif;"],
     },
     listStyleType: {
       none: "none",
@@ -21,10 +22,10 @@ module.exports = {
       },
       gridTemplateRows: {
         // Simple 8 row grid
-        '10': 'repeat(10, minmax(0, 1fr))',
+        10: 'repeat(10, minmax(0, 1fr))',
 
         // Complex site-specific row configuration
-        'layout': '200px minmax(900px, 1fr) 100px',
+        layout: '200px minmax(900px, 1fr) 100px',
       },
       backgroundColor: {
         main: "#ee3131",

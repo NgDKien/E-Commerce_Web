@@ -11,8 +11,8 @@ var blogSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    category: {
-      type: String,
+    hashtags: {
+      type: Array,
       required: true,
     },
     numberViews: {
