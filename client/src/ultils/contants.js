@@ -187,13 +187,13 @@ export const voteOptions = [
 
 const { MdSpaceDashboard, MdGroups2, IoCreate, FaClipboardList, MdOutlinePermMedia } = icons
 export const adminSidebar = [
-    {
-        id: 1,
-        type: "SINGLE",
-        text: "Dashboard",
-        path: `/${path.ADMIN}/${path.DASHBOARD}`,
-        icon: <MdSpaceDashboard size={20} />,
-    },
+    // {
+    //     id: 1,
+    //     type: "SINGLE",
+    //     text: "Dashboard",
+    //     path: `/${path.ADMIN}/${path.DASHBOARD}`,
+    //     icon: <MdSpaceDashboard size={20} />,
+    // },
     {
         id: 2,
         type: "SINGLE",
