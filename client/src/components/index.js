@@ -41,6 +41,10 @@ export { default as CustomSelect } from "./inputs/CustomSelect"
 export { default as MdEditor } from "./inputs/MdEditor"
 export { default as InputFile } from "./inputs/InputFile"
 export { default as Blogs } from "./products/Blogs"
+export { default as ChatbotIcon } from "./chatbot/ChatbotIcon"
+export { default as ChatForm } from "./chatbot/ChatForm"
+export { default as ChatMessage } from "./chatbot/ChatMessage"
+
 
 
 

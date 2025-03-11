@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Route, Routes } from 'react-router-dom'
 import {
   Login,
@@ -35,10 +35,56 @@ import { getCategories } from './store/app/asyncActions'
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-import { Modal, Cart } from './components';
+import { Modal, Cart, ChatbotIcon, ChatForm, ChatMessage } from './components';
 import { showCart } from 'store/app/appSlice';
 
+import { companyInfo } from 'companyInfo';
+
 function App() {
+  const [chatHistory, setChatHistory] = useState([
+    {
+      hideInChat: true,
+      role: "model",
+      text: companyInfo
+    }
+  ]);
+  const [showChatbot, setShowChatBot] = useState(false);
+  const chatBodyRef = useRef();
+  const generateBotResponse = async (history) => {
+    //Helper function to update chat history
+    const updateHistory = (text, isError = false) => {
+      setChatHistory((prev) => [...prev.filter((msg) => msg.text !== "Thinking..."), { role: "model", text, isError }]);
+    }
+
+    //Format chat history for API request
+    history = history.map(({ role, text }) => ({ role, parts: [{ text }] }));
+
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ contents: history })
+    }
+
+    try {
+      //Make the API call to get the bot's response
+      const response = await fetch(process.env.REACT_APP_API_URL, requestOptions);
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error.message || "Something went wrong!");
+
+      //Clean and update chat history with bot's response
+      const apiResponseText = data.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, "$1").trim();
+      updateHistory(apiResponseText);
+
+      console.log(data);
+    } catch (error) {
+      updateHistory(error.message, true);
+    }
+  }
+  useEffect(() => {
+    //Auto scroll
+    chatBodyRef.current.scrollTo({ top: chatBodyRef.current.scrollHeight, behavior: "smooth" });
+  }, [chatHistory])
+
   const dispatch = useDispatch()
   const { isShowModal, modalChildren, isShowCart } = useSelector(state => state.app)
   useEffect(() => {
@@ -55,6 +101,42 @@ function App() {
         </div>
       )}
       {isShowModal && <Modal>{modalChildren}</Modal>}
+
+      {/* Chatbot */}
+      <div className={`container ${showChatbot ? "show-chatbot" : ""}`}>
+        <button onClick={() => setShowChatBot(prev => !prev)} id="chatbot-toggler">
+          <span className='material-symbols-rounded'>mode_comment</span>
+          <span className='material-symbols-rounded'>close</span>
+        </button>
+        <div className='chatbot-popup'>
+          {/* Chatbot Header */}
+          <div className="chat-header">
+            <div className="header-info">
+              <ChatbotIcon />
+              <h2 className="logo-text">Chatbot</h2>
+            </div>
+            <button onClick={() => setShowChatBot(prev => !prev)} className='material-symbols-rounded'>keyboard_arrow_up</button>
+          </div>
+          {/* Chatbot Body */}
+          <div ref={chatBodyRef} className="chat-body">
+            <div className="message bot-message">
+              <ChatbotIcon />
+              <p className="message-text">
+                Hey there 🔥<br />
+                How can I help you today?
+              </p>
+            </div>
+            {chatHistory.map((chat, index) => (
+              <ChatMessage key={index} chat={chat} />
+            ))}
+          </div>
+          {/* Chatbot Footer */}
+          <div className='chat-footer'>
+            <ChatForm chatHistory={chatHistory} setChatHistory={setChatHistory} generateBotResponse={generateBotResponse} />
+          </div>
+        </div>
+      </div>
+
       <Routes>
         <Route path={path.CHECKOUT} element={<Checkout />} />
         <Route path={path.PUBLIC} element={<Public />}>
