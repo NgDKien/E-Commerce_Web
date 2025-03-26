@@ -5,7 +5,7 @@ const createNewBlog = asyncHandler(async (req, res) => {
   const { title, description, hashtags } = req.body
   if (!req.file) throw new Error("Missing inputs")
   if (!title || !description || !hashtags) throw new Error("Missing inputs")
-  const response = await Blog.create(req.body)
+  const response = await Blog.create({ ...req.body, image: req.file.path })
   return res.json({
     success: response ? true : false,
     mes: response ? "Blog Created." : "Cannot create new blog",

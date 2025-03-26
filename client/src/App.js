@@ -39,6 +39,7 @@ import { Modal, Cart, ChatbotIcon, ChatForm, ChatMessage } from './components';
 import { showCart } from 'store/app/appSlice';
 
 import { companyInfo } from 'companyInfo';
+import Blog from 'pages/public/Blog';
 
 function App() {
   const [chatHistory, setChatHistory] = useState([
@@ -144,6 +145,7 @@ function App() {
           <Route path={path.BLOGS__ID__TITLE} element={<DetailBlogs />} />
           <Route path={path.DETAIL_PRODUCT__CATEGORY__PID__TITLE} element={<DetailProduct />} />
           <Route path={path.FAQ} element={<FAQ />} />
+          <Route path={path.BLOGS} element={<Blog />} />
           <Route path={path.OUR_SERVICES} element={<Services />} />
           <Route path={path.PRODUCTS__CATEGORY} element={<Products />} />
           <Route path={path.RESET_PASSWORD} element={<ResetPassword />} />

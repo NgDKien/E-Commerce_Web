@@ -128,7 +128,7 @@ const DetailProduct = ({ isQuickView, data, location, dispatch, navigate }) => {
             fetchProducts()
         }
         window.scrollTo(0, 0)
-        titleRef.current.scrollIntoView({ block: 'center' })
+        // titleRef.current.scrollIntoView({ block: 'center' })
     }, [pid])
 
     useEffect(() => {
@@ -178,7 +178,7 @@ const DetailProduct = ({ isQuickView, data, location, dispatch, navigate }) => {
                 className={clsx(
                     "bg-white m-auto mt-4 flex",
                     isQuickView
-                        ? "max-w-[900px] gap-16 p-8 max-h-[80vh] overflow-y-auto"
+                        ? "max-w-[900px] gap-36 max-h-[80vh] overflow-y-auto"
                         : "w-main"
                 )}
             >

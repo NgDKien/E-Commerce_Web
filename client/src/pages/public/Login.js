@@ -113,7 +113,7 @@ const Login = () => {
                     </div>
                 </div>
             )}
-            {isForgotPassword && (
+            {/* {isForgotPassword && (
                 <div className="absolute animate-slide-right top-0 left-0 bottom-0 right-0 bg-white flex flex-col items-center px-4 py-8 z-50">
                     <div className="flex w-full flex-col gap-4">
                         <label htmlFor="email">Enter your email:</label>
@@ -142,12 +142,51 @@ const Login = () => {
                         </div>
                     </div>
                 </div>
+            )} */}
+            {isForgotPassword && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4 animate-fade-in">
+                        <div className="p-6">
+                            <h2 className="text-2xl font-semibold text-gray-800 mb-6">Forgot Password</h2>
+                            <div className="flex w-full flex-col gap-4">
+                                <label htmlFor="email" className="text-gray-700 font-medium">Enter your email:</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    className="w-full p-3 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                                    placeholder="example@gmail.com"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+                                <p className="text-sm text-gray-500 mt-1">We'll send a password reset link to this email address</p>
+
+                                <div className="flex items-center justify-end w-full gap-3 mt-4">
+                                    <Button
+                                        name="Back"
+                                        handleOnClick={() => setIsForgotPassword(false)}
+                                        style="px-4 py-2 rounded-md text-gray-700 border border-gray-300 hover:bg-gray-100 transition-colors"
+                                    >
+                                        Cancel
+                                    </Button>
+                                    <Button
+                                        name="Submit"
+                                        handleOnClick={handleForgotPassword}
+                                        style="px-4 py-2 rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors font-medium"
+                                    >
+                                        Submit
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             )}
-            <img
+            {/* <img
                 src="https://img.freepik.com/premium-photo/shopping-cart-card-icon-discounts_116441-26066.jpg"
                 alt=""
                 className="w-full h-full object-cover"
-            />
+            /> */}
+            <div className="w-full h-full bg-red-300"></div>
             <div className="absolute top-0 bottom-0 left-0 right-0 items-center justify-center flex">
                 <div className="p-8 bg-white flex flex-col items-center rounded-md md:min-w-[500px]">
                     <h1 className="text-[28px] font-semibold text-main mb-8">
@@ -176,7 +215,7 @@ const Login = () => {
                         nameKey="email"
                         invalidFields={invalidFields}
                         setInvalidFieds={setInvalidFields}
-                    // fullWidth
+                        fullWidth
                     />
                     {isRegister &&
                         <InputField
@@ -185,7 +224,7 @@ const Login = () => {
                             nameKey="mobile"
                             invalidFields={invalidFields}
                             setInvalidFieds={setInvalidFields}
-                        // fullWidth
+                            fullWidth
                         />}
                     <InputField
                         value={payload.password}
@@ -194,7 +233,7 @@ const Login = () => {
                         type="password"
                         invalidFields={invalidFields}
                         setInvalidFieds={setInvalidFields}
-                    // fullWidth
+                        fullWidth
                     />
                     <Button handleOnClick={handleSubmit} fw>
                         {isRegister ? "Register" : "Login"}

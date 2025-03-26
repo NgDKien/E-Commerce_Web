@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 import withBaseComponent from "hocs/withBaseComponent"
 import icons from '../../ultils/icons'
 import { createSearchParams } from "react-router-dom"
+import { apiGetBlogs } from "apis/blog"
 
 const { IoIosArrowForward } = icons
 

@@ -9,8 +9,8 @@ const InputFile = ({ register, errors, id, label, validate }) => {
                 <small className="text-xs text-red-500">{errors[id]?.message}</small>
             )}
             {/* {preview && (
-                <img src={preview} alt="" className="w-48 object-contain mt-4" />
-            )} */}
+          <img src={preview} alt="" className="w-48 object-contain mt-4" />
+        )} */}
         </div>
     )
 }
