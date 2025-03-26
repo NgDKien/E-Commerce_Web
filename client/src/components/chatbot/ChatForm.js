@@ -5,6 +5,8 @@ const ChatForm = ({ chatHistory, setChatHistory, generateBotResponse }) => {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
+
+        //getting input value , remove whitespaces
         const userMessage = inputRef.current.value.trim();
         if (!userMessage) return;
         inputRef.current.value = "";
@@ -17,6 +19,7 @@ const ChatForm = ({ chatHistory, setChatHistory, generateBotResponse }) => {
             setChatHistory((history) => [...history, { role: "model", text: "Thinking..." }]);
 
             //Call the function to generate bot's response
+            //Adding prefix so that bot responds based on the provided data
             generateBotResponse([...chatHistory, { role: "user", text: `Using the details provided above, please address this query: ${userMessage}` }]);
         }, 600);
     }

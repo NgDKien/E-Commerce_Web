@@ -43,6 +43,7 @@ import Blog from 'pages/public/Blog';
 
 function App() {
   const [chatHistory, setChatHistory] = useState([
+    //Adding company details as the bot's initial message and hide in chat
     {
       hideInChat: true,
       role: "model",
@@ -51,9 +52,11 @@ function App() {
   ]);
   const [showChatbot, setShowChatBot] = useState(false);
   const chatBodyRef = useRef();
+  //Generate bot's response based on user message 
   const generateBotResponse = async (history) => {
     //Helper function to update chat history
     const updateHistory = (text, isError = false) => {
+      //Replace bot's "Thinking..." message with the Gemini response
       setChatHistory((prev) => [...prev.filter((msg) => msg.text !== "Thinking..."), { role: "model", text, isError }]);
     }
 
